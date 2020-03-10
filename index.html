@@ -98,7 +98,7 @@
     <button id="request-signing">REQUEST_SIGNING</button>
     <p id="response-signing">> Signature :</p> -->
 
-    <script src="http://cdn.jsdelivr.net/gh/icon-project/icon-sdk-js@latest/build/icon-sdk-js.web.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/gh/icon-project/icon-sdk-js@latest/build/icon-sdk-js.web.min.js"></script>
     <script>
       var iconService = window['icon-sdk-js'];
       var IconWallet = iconService.IconWallet;
@@ -116,22 +116,22 @@
       var requestAddress = document.getElementById('request-address');
       var responseAddress = document.getElementById('response-address');
 
-      var requestScore = document.getElementById('request-score');
-      var requestScoreForm = document.getElementById('request-score-form');
-      var responseScore = document.getElementById('response-score');
+      // var requestScore = document.getElementById('request-score');
+      // var requestScoreForm = document.getElementById('request-score-form');
+      // var responseScore = document.getElementById('response-score');
 
-      var requestSigning = document.getElementById('request-signing');
-      var responseSigning = document.getElementById('response-signing');
+      // var requestSigning = document.getElementById('request-signing');
+      // var responseSigning = document.getElementById('response-signing');
 
-      var sendAddress = document.getElementById('send-address');
-      var sendAmount = document.getElementById('send-amount');
-      var scoreData = document.getElementById('score-data');
-      var signingData = document.getElementById('signing-data');
+      // var sendAddress = document.getElementById('send-address');
+      // var sendAmount = document.getElementById('send-amount');
+      // var scoreData = document.getElementById('score-data');
+      // var signingData = document.getElementById('signing-data');
 
-      var jsonRpc0 = document.getElementById('json-rpc-0');
-      var jsonRpc1 = document.getElementById('json-rpc-1');
-      var jsonRpc2 = document.getElementById('json-rpc-2');
-      var jsonRpc3 = document.getElementById('json-rpc-3');
+      // var jsonRpc0 = document.getElementById('json-rpc-0');
+      // var jsonRpc1 = document.getElementById('json-rpc-1');
+      // var jsonRpc2 = document.getElementById('json-rpc-2');
+      // var jsonRpc3 = document.getElementById('json-rpc-3');
 
       window.addEventListener('ICONEX_RELAY_RESPONSE', eventHandler, false);
       function eventHandler(event) {
@@ -149,31 +149,31 @@
           case 'RESPONSE_ADDRESS':
             fromAddress = payload;
             responseAddress.innerHTML = '> Selected ICX Address : ' + payload;
-            jsonRpc0.disabled = false;
+            /* jsonRpc0.disabled = false;
             jsonRpc1.disabled = false;
             jsonRpc2.disabled = false;
-            jsonRpc3.disabled = false;
+            jsonRpc3.disabled = false; */
             break;
-          case 'RESPONSE_JSON-RPC':
+          /* case 'RESPONSE_JSON-RPC':
             responseScore.value = JSON.stringify(payload);
-            break;
-          case 'CANCEL_JSON-RPC':
+            break; */
+          /* case 'CANCEL_JSON-RPC':
             responseScore.value = null;
-            break;
-          case 'RESPONSE_SIGNING':
+            break; */
+          /* case 'RESPONSE_SIGNING':
             signingData.value = null;
             responseSigning.innerHTML = '> Signature : ' + JSON.stringify(payload);
-            break;
-          case 'CANCEL_SIGNING':
+            break; */
+          /* case 'CANCEL_SIGNING':
             signingData.value = null;
             responseSigning.value = '> Signature : ';
-            break;
+            break; */
 
           default:
         }
       }
 
-      function setRequestScoreForm() {
+      /* function setRequestScoreForm() {
         var data = new FormData(requestScoreForm);
         var type = '';
         for (const entry of data) {
@@ -238,7 +238,7 @@
             break;
           default:
         }
-      }
+      } */
 
       requestHasAccount.onclick = function() {
         window.dispatchEvent(
@@ -271,7 +271,7 @@
         );
       };
 
-      requestScore.onclick = function() {
+      /* requestScore.onclick = function() {
         responseScore.value = null;
 
         if (!scoreData.value) {
@@ -293,9 +293,9 @@
             },
           })
         );
-      };
+      }; */
 
-      requestSigning.onclick = function() {
+      /* requestSigning.onclick = function() {
         if (!fromAddress) {
           alert('Select the ICX Address');
           return;
@@ -312,7 +312,7 @@
             },
           })
         );
-      };
+      }; */
     </script>
   </body>
 </html>
