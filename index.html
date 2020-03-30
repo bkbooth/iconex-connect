@@ -83,10 +83,8 @@
     <button id="request-score">REQUEST_JSON-RPC</button>
     <p>> Result : <br /><textarea id="response-score" rows="10"></textarea></p> -->
 
-    <!-- <p>--------------------</p>
-    <p>
-      <b>Signing</b> - Request for only signing tx hash. (User confirmation is always required.)
-    </p>
+    <p>--------------------</p>
+    <p><b>SIGNING</b> - Request for only signing tx hash.</p>
     <p>
       Tx Hash :
       <input
@@ -96,7 +94,7 @@
       />
     </p>
     <button id="request-signing">REQUEST_SIGNING</button>
-    <p id="response-signing">> Signature :</p> -->
+    <p id="response-signing">> Signature :</p>
 
     <script src="https://cdn.jsdelivr.net/gh/icon-project/icon-sdk-js@latest/build/icon-sdk-js.web.min.js"></script>
     <script>
@@ -105,6 +103,8 @@
       var IconAmount = iconService.IconAmount;
       var IconConverter = iconService.IconConverter;
       var IconBuilder = iconService.IconBuilder;
+
+      var fromAddress;
 
       var requestHasAccount = document.getElementById('request-has-account');
       var responseHasAccount = document.getElementById('response-has-account');
@@ -120,8 +120,8 @@
       // var requestScoreForm = document.getElementById('request-score-form');
       // var responseScore = document.getElementById('response-score');
 
-      // var requestSigning = document.getElementById('request-signing');
-      // var responseSigning = document.getElementById('response-signing');
+      var requestSigning = document.getElementById('request-signing');
+      var responseSigning = document.getElementById('response-signing');
 
       // var sendAddress = document.getElementById('send-address');
       // var sendAmount = document.getElementById('send-amount');
@@ -160,14 +160,14 @@
           /* case 'CANCEL_JSON-RPC':
             responseScore.value = null;
             break; */
-          /* case 'RESPONSE_SIGNING':
+          case 'RESPONSE_SIGNING':
             signingData.value = null;
             responseSigning.innerHTML = '> Signature : ' + JSON.stringify(payload);
-            break; */
-          /* case 'CANCEL_SIGNING':
+            break;
+          case 'CANCEL_SIGNING':
             signingData.value = null;
             responseSigning.value = '> Signature : ';
-            break; */
+            break;
 
           default:
         }
@@ -295,7 +295,7 @@
         );
       }; */
 
-      /* requestSigning.onclick = function() {
+      requestSigning.onclick = function() {
         if (!fromAddress) {
           alert('Select the ICX Address');
           return;
@@ -312,7 +312,7 @@
             },
           })
         );
-      }; */
+      };
     </script>
   </body>
 </html>
