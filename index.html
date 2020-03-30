@@ -35,7 +35,21 @@
     <button id="request-address">REQUEST_ADDRESS</button>
     <p id="response-address">> Selected ICX Address :</p>
 
-    <!-- <p>--------------------</p>
+    <p>--------------------</p>
+    <p><b>SIGNING</b> - Request for only signing tx hash.</p>
+    <p>* User confirmation is required.</p>
+    <p>
+      Tx Hash :
+      <input
+        id="signing-data"
+        type="text"
+        placeholder="9babe5d2911e8e42dfad72a589202767f95c6fab49523cdc16279a7b8f82eab2"
+      />
+    </p>
+    <button id="request-signing">REQUEST_SIGNING</button>
+    <p id="response-signing">> Signature :</p>
+
+    <p>--------------------</p>
     <p><b>JSON-RPC</b> - Requests for calling standard ICON JSON-RPC API.</p>
     <p>* User confirmation is required.</p>
     <form id="request-score-form">
@@ -81,20 +95,7 @@
     </form>
     <p>Param Data: <br /><textarea id="score-data" rows="10"></textarea></p>
     <button id="request-score">REQUEST_JSON-RPC</button>
-    <p>> Result : <br /><textarea id="response-score" rows="10"></textarea></p> -->
-
-    <p>--------------------</p>
-    <p><b>SIGNING</b> - Request for only signing tx hash.</p>
-    <p>
-      Tx Hash :
-      <input
-        id="signing-data"
-        type="text"
-        placeholder="9babe5d2911e8e42dfad72a589202767f95c6fab49523cdc16279a7b8f82eab2"
-      />
-    </p>
-    <button id="request-signing">REQUEST_SIGNING</button>
-    <p id="response-signing">> Signature :</p>
+    <p>> Result : <br /><textarea id="response-score" rows="10"></textarea></p>
 
     <script src="https://cdn.jsdelivr.net/gh/icon-project/icon-sdk-js@latest/build/icon-sdk-js.web.min.js"></script>
     <script>
@@ -116,22 +117,22 @@
       var requestAddress = document.getElementById('request-address');
       var responseAddress = document.getElementById('response-address');
 
-      // var requestScore = document.getElementById('request-score');
-      // var requestScoreForm = document.getElementById('request-score-form');
-      // var responseScore = document.getElementById('response-score');
-
       var requestSigning = document.getElementById('request-signing');
       var responseSigning = document.getElementById('response-signing');
       var signingData = document.getElementById('signing-data');
 
-      // var sendAddress = document.getElementById('send-address');
-      // var sendAmount = document.getElementById('send-amount');
-      // var scoreData = document.getElementById('score-data');
+      var requestScore = document.getElementById('request-score');
+      var requestScoreForm = document.getElementById('request-score-form');
+      var responseScore = document.getElementById('response-score');
 
-      // var jsonRpc0 = document.getElementById('json-rpc-0');
-      // var jsonRpc1 = document.getElementById('json-rpc-1');
-      // var jsonRpc2 = document.getElementById('json-rpc-2');
-      // var jsonRpc3 = document.getElementById('json-rpc-3');
+      var sendAddress = document.getElementById('send-address');
+      var sendAmount = document.getElementById('send-amount');
+      var scoreData = document.getElementById('score-data');
+
+      var jsonRpc0 = document.getElementById('json-rpc-0');
+      var jsonRpc1 = document.getElementById('json-rpc-1');
+      var jsonRpc2 = document.getElementById('json-rpc-2');
+      var jsonRpc3 = document.getElementById('json-rpc-3');
 
       window.addEventListener('ICONEX_RELAY_RESPONSE', eventHandler, false);
       function eventHandler(event) {
@@ -149,17 +150,11 @@
           case 'RESPONSE_ADDRESS':
             fromAddress = payload;
             responseAddress.innerHTML = '> Selected ICX Address : ' + payload;
-            /* jsonRpc0.disabled = false;
+            jsonRpc0.disabled = false;
             jsonRpc1.disabled = false;
             jsonRpc2.disabled = false;
-            jsonRpc3.disabled = false; */
+            jsonRpc3.disabled = false;
             break;
-          /* case 'RESPONSE_JSON-RPC':
-            responseScore.value = JSON.stringify(payload);
-            break; */
-          /* case 'CANCEL_JSON-RPC':
-            responseScore.value = null;
-            break; */
           case 'RESPONSE_SIGNING':
             signingData.value = null;
             responseSigning.innerHTML = '> Signature : ' + JSON.stringify(payload);
@@ -168,12 +163,18 @@
             signingData.value = null;
             responseSigning.innerHTML = '> Signature : <i>User cancelled</i>';
             break;
+          case 'RESPONSE_JSON-RPC':
+            responseScore.value = JSON.stringify(payload);
+            break;
+          case 'CANCEL_JSON-RPC':
+            responseScore.value = null;
+            break;
 
           default:
         }
       }
 
-      /* function setRequestScoreForm() {
+      function setRequestScoreForm() {
         var data = new FormData(requestScoreForm);
         var type = '';
         for (const entry of data) {
@@ -200,7 +201,7 @@
             var callTransactionData = callTransactionBuilder
               .from(fromAddress)
               .to('cxb20b5ff06ba50aef42c7832958af59f9ae0651e7')
-              .nid(IconConverter.toBigNumber(3))
+              .nid(IconConverter.toBigNumber(80))
               .timestamp(new Date().getTime() * 1000)
               .stepLimit(IconConverter.toBigNumber(1000000))
               .version(IconConverter.toBigNumber(3))
@@ -223,7 +224,7 @@
             var icxTransferData = icxTransactionBuilder
               .from(fromAddress)
               .to('hx04d669879227bb24fc32312c408b0d5503362ef0')
-              .nid(IconConverter.toBigNumber(3))
+              .nid(IconConverter.toBigNumber(80))
               .value(IconAmount.of(1, IconAmount.Unit.ICX).toLoop())
               .timestamp(new Date().getTime() * 1000)
               .version(IconConverter.toBigNumber(3))
@@ -238,7 +239,7 @@
             break;
           default:
         }
-      } */
+      }
 
       requestHasAccount.onclick = function() {
         window.dispatchEvent(
@@ -271,7 +272,26 @@
         );
       };
 
-      /* requestScore.onclick = function() {
+      requestSigning.onclick = function() {
+        if (!fromAddress) {
+          alert('Select the ICX Address');
+          return;
+        }
+
+        window.dispatchEvent(
+          new CustomEvent('ICONEX_RELAY_REQUEST', {
+            detail: {
+              type: 'REQUEST_SIGNING',
+              payload: {
+                from: fromAddress,
+                hash: signingData.value || signingData.placeholder,
+              },
+            },
+          })
+        );
+      };
+
+      requestScore.onclick = function() {
         responseScore.value = null;
 
         if (!scoreData.value) {
@@ -290,25 +310,6 @@
             detail: {
               type: 'REQUEST_JSON-RPC',
               payload: parsed,
-            },
-          })
-        );
-      }; */
-
-      requestSigning.onclick = function() {
-        if (!fromAddress) {
-          alert('Select the ICX Address');
-          return;
-        }
-
-        window.dispatchEvent(
-          new CustomEvent('ICONEX_RELAY_REQUEST', {
-            detail: {
-              type: 'REQUEST_SIGNING',
-              payload: {
-                from: fromAddress,
-                hash: signingData.value || signingData.placeholder,
-              },
             },
           })
         );
