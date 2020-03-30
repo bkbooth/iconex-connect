@@ -122,11 +122,11 @@
 
       var requestSigning = document.getElementById('request-signing');
       var responseSigning = document.getElementById('response-signing');
+      var signingData = document.getElementById('signing-data');
 
       // var sendAddress = document.getElementById('send-address');
       // var sendAmount = document.getElementById('send-amount');
       // var scoreData = document.getElementById('score-data');
-      // var signingData = document.getElementById('signing-data');
 
       // var jsonRpc0 = document.getElementById('json-rpc-0');
       // var jsonRpc1 = document.getElementById('json-rpc-1');
@@ -166,7 +166,7 @@
             break;
           case 'CANCEL_SIGNING':
             signingData.value = null;
-            responseSigning.value = '> Signature : ';
+            responseSigning.innerHTML = '> Signature : ';
             break;
 
           default:
