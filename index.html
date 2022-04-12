@@ -201,7 +201,7 @@
             var callTransactionData = callTransactionBuilder
               .from(fromAddress)
               .to('cxb20b5ff06ba50aef42c7832958af59f9ae0651e7')
-              .nid(IconConverter.toBigNumber(80))
+              .nid(IconConverter.toBigNumber(83))
               .timestamp(new Date().getTime() * 1000)
               .stepLimit(IconConverter.toBigNumber(1000000))
               .version(IconConverter.toBigNumber(3))
@@ -224,7 +224,7 @@
             var icxTransferData = icxTransactionBuilder
               .from(fromAddress)
               .to('hx04d669879227bb24fc32312c408b0d5503362ef0')
-              .nid(IconConverter.toBigNumber(80))
+              .nid(IconConverter.toBigNumber(83))
               .value(IconAmount.of(1, IconAmount.Unit.ICX).toLoop())
               .timestamp(new Date().getTime() * 1000)
               .version(IconConverter.toBigNumber(3))
